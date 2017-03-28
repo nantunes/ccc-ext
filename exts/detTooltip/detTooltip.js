@@ -211,7 +211,7 @@
              */
             formatter.format = function(scene) {
                 var mapping = getPlotMapping(scene.panel().plot);
-                var model = buildModel.call(formatter, scene, mapping);
+                var model = buildModel.call(this, scene, mapping);
 
                 return detTooltipRenderer.call(formatter, model);
             };
@@ -605,6 +605,19 @@
 
             }
 
+            var app = this.model != null ? this.model.application : null;
+            if(app != null && app.getDoubleClickTooltip != null) {
+                var complex = scene.datum;
+                if(!complex.isVirtual) {
+                    var pointFilter = this._complexToFilter(complex);
+                    var msg = app.getDoubleClickTooltip(pointFilter);
+
+                    if(msg) {
+                        tooltipModel.footer = msg;
+                    }
+                }
+            }
+
             return tooltipModel;
         }
 
@@ -783,6 +796,12 @@
 
                     baseElement.appendChild(measuresElement);
                 }
+            }
+
+            if(tooltipModel.footer) {
+                var footerElement = document.createElement("footer");
+                footerElement.innerHTML = tooltipModel.footer;
+                baseElement.appendChild(footerElement);
             }
 
             return baseElement.innerHTML;

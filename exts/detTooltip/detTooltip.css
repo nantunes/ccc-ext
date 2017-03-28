@@ -286,3 +286,14 @@
   -ms-flex-positive: 1;
           flex-grow: 1;
 }
+
+.ccc-ext-det-tooltip footer {
+  position: relative;
+
+  margin: 0;
+  padding: 0.5em 1em;
+
+  list-style: none;
+
+  border-top: solid 1px #f2f2f2;
+}
